@@ -31,7 +31,8 @@
 
   # 消息通知
   services.swaync.enable = true;
-  services.swayidle.enable = true;
+  # Idle policy 暂未配置；裸启 swayidle 会因无 command 反复退出
+  services.swayidle.enable = false;
   catppuccin.swaync = {
     enable = true;
     flavor = "mocha";

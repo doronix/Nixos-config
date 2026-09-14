@@ -9,7 +9,7 @@
     ./modules
   ];
 
-  nix.settings.trusted-users = ["root" "youth"];
+  nix.settings.trusted-users = ["root" "charles"];
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -40,58 +40,51 @@
     XMODIFIERS = "@im=fcitx";
   };
 
-  # NOTE: 敏感环境变量加载 (ai_api_key等)
-  age.identityPaths = [
-    "/home/youth/.ssh/id_ed25519"
-  ];
-  age.secrets."ai_api_key" = {
-    file = ./secrets/ai_api_key.age;
-    owner = "youth";
-  };
-
   programs.steam.enable = true;
   programs.steam.fontPackages = with pkgs; [source-han-sans];
   programs.zsh.enable = true;
-  users.users.youth = {
-    description = "Youth";
+  users.users.charles = {
+    description = "Charles";
     isNormalUser = true;
-    home = "/home/youth";
+    home = "/home/charles";
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
-    hashedPassword = "$6$d89dDb.7HKl8dx2J$NP00uF4ukMaVYoWzInQxoeokT7927qybXJGzrGwe7WYd7aRNMrNVfLbgnotRDPysU0lqTrZ1L0uTu7EjXsYwg/";
     extraGroups = ["wheel" "networkmanager" "audio" "input" "video" "docker" "kvm" "libvirtd"];
   };
-  security.sudo.wheelNeedsPassword = false; # sudo组是否需要密码
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  # Low-power CPUs use the kernel parameters below to avoid crashes
-  boot.kernelParams = ["ahci.mobile_lpm_policy=1"];
+  # Keep the proven R9000P boot baseline for the first v3 migration.
+  boot = {
+    kernelPackages = pkgs.linuxPackages_6_12;
+
+    loader = {
+      grub = {
+        enable = true;
+        devices = [ "nodev" ];
+        efiSupport = true;
+        useOSProber = true;
+      };
+
+      efi.canTouchEfiVariables = true;
+    };
+
+    # Keep the existing AHCI power-management workaround.
+    kernelParams = [ "ahci.mobile_lpm_policy=1" ];
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  services.openssh.settings.PermitRootLogin = "yes";
+  services.openssh.settings.PermitRootLogin = "no";
   services.timesyncd.enable = true;
 
   # U盘自动加载
   services.udisks2.enable = true;
 
   # networking
-  networking.hostName = "cook";
+  networking.hostName = "r9000p";
   networking.networkmanager.enable = true;
   networking.firewall.allowedTCPPorts = [
     5900
   ];
-
-  # Configure network proxy if necessary
-  # 系统级代理设置
-  networking.proxy = {
-    default = "http://127.0.0.1:7897";
-    httpProxy = "http://127.0.0.1:7897";
-    httpsProxy = "http://127.0.0.1:7897";
-    noProxy = "localhost,127.0.0.1,::1,*.local";
-  };
 
   # 禁用所有形式的睡眠和休眠
   systemd.sleep.settings.Sleep = {
@@ -153,9 +146,19 @@
     withUWSM = true;
     xwayland.enable = true;
   };
-  services.displayManager.gdm.enable = true;
+  # Login: keep the proven greetd -> tuigreet -> niri-session chain
+  services.displayManager.gdm.enable = false;
+
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = "env LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 LANGUAGE=en_US:en ${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --asterisks --cmd niri-session";
+      user = "greeter";
+    };
+  };
+
   services.gnome.gnome-keyring.enable = true;
-  security.pam.services.gdm.enableGnomeKeyring = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   # services.displayManager.sddm.enable = true;
   # Enable the X11 windowing system.
@@ -188,23 +191,39 @@
 
   hardware = {
     enableAllFirmware = true; # 自动安装所有固件
-    cpu.intel.updateMicrocode = true; # Intel CPU
-    # cpu.amd.updateMicrocode = true; # AMD CPU
+    cpu.amd.updateMicrocode = true; # AMD CPU
   };
 
+  # Graphics: AMD iGPU + RTX 4060 Laptop
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-    ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [
-      intel-media-driver
-      intel-vaapi-driver
-    ];
   };
-  system.stateVersion = "25.05";
+
+  # AMD iGPU 负责日常桌面，RTX 4060 按需 PRIME Offload
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  hardware.nvidia = {
+    # RTX 4060 (Ada) 使用 NVIDIA Open Kernel Module
+    open = true;
+    modesetting.enable = true;
+
+    powerManagement = {
+      enable = true;
+      finegrained = true;
+    };
+
+    prime = {
+      amdgpuBusId = "PCI:8:0:0";
+      nvidiaBusId = "PCI:1:0:0";
+
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+    };
+  };
+  system.stateVersion = "26.05";
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -220,36 +239,5 @@
   #   enableSSHSupport = true;
   # };
 
-  #### systemd user env loader ####
-  systemd.user.services.env-loader = {
-    description = "Load API keys from agenix into graphical session";
-    wantedBy = ["graphical-session-pre.target"];
-    before = ["graphical-session.target"];
 
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "env-loader" ''
-          SECRET_FILE="${config.age.secrets.ai_api_key.path}"
-          if [ -f "$SECRET_FILE" ]; then
-          # 1. 临时开启自动导出功能，并 source 文件
-          set -a
-          . "$SECRET_FILE"
-          set +a
-
-          # 2. 提取文件中的变量名 (匹配等号左边的字符)
-          VARS=$(grep -oP '^[a-zA-Z_][a-zA-Z0-9_]*(?==)' "$SECRET_FILE")
-
-          # 3. 将变量注入 D-Bus (解决 Rofi/GUI 应用识别问题)
-          ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd $VARS
-
-          # 4. 同步到 systemd 用户环境
-          for var in $VARS; do
-            val=$(eval echo \$$var)
-            ${pkgs.systemd}/bin/systemctl --user set-environment "$var"="$val"
-          done
-        fi
-      '';
-    };
-  };
 }

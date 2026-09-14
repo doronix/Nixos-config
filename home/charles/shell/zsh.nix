@@ -33,9 +33,6 @@
       [ -f ~/.zsh_local ] && source ~/.zsh_local
       # source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       # [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-      # for file in /run/agenix/ai_api_key.zsh; do
-      #   [ -f "$file" ] && source "$file"
-      # done
     '';
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
