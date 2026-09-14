@@ -294,7 +294,7 @@ hl.bind(
     wl-copy < $file && \
     notify-send "区域截图,已保存至~/screenshot并打开编辑器"')
 ) -- 区域截图
-hl.bind(mainMod .. "g", hl.dsp.exec_cmd("~/.config/hypr/scripts/capture.sh")) -- 捕获功能
+hl.bind(mainMod .. "g", hl.dsp.exec_cmd("~/.config/capture/capture.sh")) -- 捕获功能
 hl.bind(super_shift .. "w", hl.dsp.exec_cmd("~/.config/wallpaper/script/awww-rofi.sh")) -- 壁纸切换快捷键
 -- 窗口快捷键
 hl.bind(mainMod .. "f", hl.dsp.window.fullscreen_state({ internal = 2, client = 0, action = "toggle" })) -- 全屏

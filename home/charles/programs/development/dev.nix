@@ -12,7 +12,7 @@
 
     go
 
-    python314
+    python313
     uv
 
     gcc15

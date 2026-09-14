@@ -8,6 +8,7 @@
     ./shell
     ./programs
     ./terminal
+    ./scripts
     ./niri
     ./hyprland
     ./noctalia
@@ -31,8 +32,29 @@
 
   # 消息通知
   services.swaync.enable = true;
-  # Idle policy 暂未配置；裸启 swayidle 会因无 command 反复退出
-  services.swayidle.enable = false;
+  # Wayland idle / lock / suspend policy
+  services.swayidle = {
+    enable = true;
+
+    timeouts = [
+      {
+        # 10 分钟无操作：锁屏
+        timeout = 600;
+        command = "/etc/profiles/per-user/charles/bin/noctalia msg session lock";
+      }
+      {
+        # 15 分钟无操作：关闭显示器
+        timeout = 900;
+        command = "/run/current-system/sw/bin/niri msg action power-off-monitors";
+      }
+      {
+        # 45 分钟无操作：系统挂起
+        timeout = 2700;
+        command = "/run/current-system/sw/bin/systemctl suspend";
+      }
+    ];
+
+  };
   catppuccin.swaync = {
     enable = true;
     flavor = "mocha";
@@ -50,9 +72,9 @@
     "image/png" = ["imv.desktop"];
     "image/jpeg" = ["imv.desktop"];
     "image/gif" = ["imv.desktop"];
-    "text/html" = "google-chrome.desktop";
-    "x-scheme-handler/http" = "google-chrome.desktop";
-    "x-scheme-handler/https" = "google-chrome.desktop";
+    "text/html" = "brave-browser.desktop";
+    "x-scheme-handler/http" = "brave-browser.desktop";
+    "x-scheme-handler/https" = "brave-browser.desktop";
     "x-scheme-handler/clash" = "clash-verge.desktop";
   };
 

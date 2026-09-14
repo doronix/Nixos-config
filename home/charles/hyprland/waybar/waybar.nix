@@ -115,7 +115,7 @@
           interval = 2;
           exec = "~/.config/waybar/scripts/wf-recorder-status.sh";
           return-type = "json";
-          on-click = "~/.config/hypr/scripts/capture.sh";
+          on-click = "~/.config/capture/capture.sh";
           hide-empty-text = true;
           tooltip = true;
           on-scroll-up = "";

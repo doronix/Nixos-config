@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    brightnessctl
     tty-clock
     tree
     unzip

@@ -10,7 +10,8 @@
     obsidian
     spotify
     kdePackages.dolphin
-  ];
+v2rayn  
+];
 
   # 谷歌浏览器设置 主题
   # programs.chromium = {
@@ -34,6 +35,11 @@
   #   enable = true;
   #   flavor = "mocha";
   # };
+
+  # Brave Browser
+  programs.brave = {
+    enable = true;
+  };
 
   # firefox
   programs.firefox = {

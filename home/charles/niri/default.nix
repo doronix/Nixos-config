@@ -1,5 +1,5 @@
 _: {
-  programs.fuzzel.enable = true;
+programs.fuzzel.enable = true;
   catppuccin.fuzzel = {
     enable = true;
     accent = "mauve";
