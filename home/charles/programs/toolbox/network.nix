@@ -16,6 +16,7 @@
     # Network debugging
     socat
     grpcurl
+    websocat
 
     # Structured data
     yq-go

@@ -2,6 +2,11 @@
   environment.systemPackages = with pkgs; [
     # Packet capture
     tcpdump
+    nftables
+    termshark
+    nexttrace
+    nethogs
+    iftop
   ];
 
   # mtr needs raw socket capability for normal-user diagnostics.
