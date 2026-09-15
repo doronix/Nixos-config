@@ -10,10 +10,32 @@
 
       init.defaultBranch = "main";
 
-      # 当前网络环境下 GitHub Git 流量显式经过 Clash。
-      # 不设置全局 http.proxy，避免影响其他 Git 服务。
+      # Show the common ancestor in merge conflicts.
+      merge.conflictStyle = "zdiff3";
+
+      # Usually produces cleaner diffs when code blocks move around.
+      diff.algorithm = "histogram";
+
+      # Remove stale remote-tracking branches during fetch.
+      fetch.prune = true;
+
+      # Current network environment: only GitHub traffic goes through Clash.
+      # Do not set a global http.proxy, so other Git services remain unaffected.
       http."https://github.com/".proxy = "http://127.0.0.1:7897";
       http."https://gist.github.com/".proxy = "http://127.0.0.1:7897";
+    };
+  };
+
+  # Better Git diff / log / show output.
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+
+    options = {
+      line-numbers = true;
+      navigate = true;
+      hyperlinks = true;
+      side-by-side = false;
     };
   };
 
