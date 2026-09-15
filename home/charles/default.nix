@@ -28,10 +28,11 @@
     mkdir -p "${config.home.homeDirectory}/screenshot"
   '';
 
-  services.polkit-gnome.enable = true; # 权限认证
 
   # 消息通知
-  services.swaync.enable = true;
+  # Niri 主桌面由 Noctalia 提供通知服务；
+  # SwayNC 不作为全局 user service 启动。
+  services.swaync.enable = false;
   # Wayland idle / lock / suspend policy
   services.swayidle = {
     enable = true;

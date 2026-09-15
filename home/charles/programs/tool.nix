@@ -25,7 +25,6 @@
     wf-recorder
     # 剪切板
     wl-clipboard
-    cliphist
     #远程桌面
     wayvnc
     # 蓝牙

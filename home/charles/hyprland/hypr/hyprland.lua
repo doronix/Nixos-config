@@ -30,7 +30,6 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("systemd --user restart wireplumber.service")
 	-- 开机自启动软件
 	hl.exec_cmd("nm-applet")
-	hl.exec_cmd("wayvnc 0.0.0.0")
 	hl.exec_cmd("waybar & awww-daemon")
 	hl.exec_cmd("swaync")
 	hl.exec_cmd("fcitx5")
@@ -278,9 +277,7 @@ hl.bind(super_shift .. "ESCAPE", hl.dsp.exec_cmd("wlogout -b 4"))
 
 hl.bind(
 	super_shift .. "r",
-	hl.dsp.exec_cmd("hyprctl reload && \
-    if pidof waybar > /dev/null; then pkill waybar; fi && waybar & \
-    if pidof wayvnc > /dev/null; then pkill wayvnc; fi && wayvnc 0.0.0.0 &")
+	hl.dsp.exec_cmd("hyprctl reload && if pidof waybar > /dev/null; then pkill waybar; fi && waybar &")
 )
 
 hl.bind(mainMod .. "q", hl.dsp.window.kill()) -- 关闭窗口

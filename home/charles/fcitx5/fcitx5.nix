@@ -7,7 +7,9 @@
 
   # 添加常用中文模块
   i18n.inputMethod.fcitx5.addons = with pkgs; [
-    fcitx5-rime
+    (fcitx5-rime.override {
+      rimeDataPkgs = [ rime-ice ];
+    })
     qt6Packages.fcitx5-configtool
     qt6Packages.fcitx5-chinese-addons # 拼音、五笔等
   ];
@@ -51,4 +53,12 @@
     enableRounded = true; # 启用圆角
     apply = false; # 自动配置
   };
+
+  # 使用 nixpkgs 的 rime-ice 数据包提供的推荐默认配置。
+  # nixpkgs 会将上游 default.yaml 安装为 rime_ice_suggestion.yaml。
+  home.file.".local/share/fcitx5/rime/default.custom.yaml".text = ''
+    patch:
+      __include: rime_ice_suggestion:/
+  '';
+
 }
