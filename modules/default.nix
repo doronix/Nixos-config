@@ -8,6 +8,7 @@
     ./desktop-integration.nix
     ./maintenance.nix
     ./snapshots.nix
+    ./backup.nix
     ./documentation.nix
   ];
 }
