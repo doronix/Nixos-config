@@ -10,8 +10,19 @@
     obsidian
     spotify
     kdePackages.dolphin
-v2rayn  
-];
+    v2rayn
+
+    # Media / audio
+    playerctl
+    easyeffects
+
+    # Remote desktop
+    remmina
+    freerdp
+
+    # E-book reader
+    foliate
+  ];
 
   # 谷歌浏览器设置 主题
   # programs.chromium = {
