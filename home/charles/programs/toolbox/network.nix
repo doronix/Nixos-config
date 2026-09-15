@@ -4,11 +4,20 @@
     nmap
     iperf3
 
-    # DNS
+    # DNS / Internet
     doggo
+    dnsutils
+    whois
 
     # HTTP / HTTPS
     xh
     mitmproxy
+
+    # Network debugging
+    socat
+    grpcurl
+
+    # Structured data
+    yq-go
   ];
 }

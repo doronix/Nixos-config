@@ -1,4 +1,9 @@
 {pkgs, ...}: {
+  environment.systemPackages = with pkgs; [
+    # Packet capture
+    tcpdump
+  ];
+
   # mtr needs raw socket capability for normal-user diagnostics.
   programs.mtr.enable = true;
 

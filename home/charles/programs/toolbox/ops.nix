@@ -3,6 +3,8 @@
     # Containers
     lazydocker
     dive
+    skopeo
+    go-containerregistry
 
     # Git / security
     gitleaks
@@ -13,5 +15,12 @@
     # Benchmark / system utilities
     hyperfine
     duf
+    dust
+    procs
+
+    # Developer workflow
+    just
+    watchexec
+    sd
   ];
 }
