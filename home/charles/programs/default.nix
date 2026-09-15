@@ -5,5 +5,6 @@
     ./git.nix
     ./app.nix
     ./development
+    ./agents
   ];
 }

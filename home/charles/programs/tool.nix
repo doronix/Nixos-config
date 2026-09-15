@@ -35,11 +35,6 @@
     losslesscut-bin # 视频剪辑工具
   ];
 
-  programs.claude-code = {
-    enable = true;
-    package = pkgs-unstable.claude-code;
-  };
-
   # fzf 模糊搜索 主题
   programs.fzf = {
     enable = true;

@@ -14,6 +14,9 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # AI agents / ChatGPT / Herdr
+    llm-agents.url = "github:numtide/llm-agents.nix";
+
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
 
     # CookNxivim 配置完整版
