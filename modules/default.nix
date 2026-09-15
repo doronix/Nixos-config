@@ -7,6 +7,7 @@
     ./nix-tools.nix
     ./desktop-integration.nix
     ./maintenance.nix
+    ./snapshots.nix
     ./documentation.nix
   ];
 }
