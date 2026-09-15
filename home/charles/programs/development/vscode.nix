@@ -15,6 +15,7 @@
         # Python / AI
         ms-python.python
         ms-python.vscode-pylance
+        ms-python.debugpy
         charliermarsh.ruff
         ms-toolsai.jupyter
 
