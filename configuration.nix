@@ -82,9 +82,6 @@
   # networking
   networking.hostName = "r9000p";
   networking.networkmanager.enable = true;
-  networking.firewall.allowedTCPPorts = [
-    5900
-  ];
 
   # 禁用所有形式的睡眠和休眠
   systemd.sleep.settings.Sleep = {

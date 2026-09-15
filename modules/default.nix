@@ -6,6 +6,7 @@
     ./diagnostics.nix
     ./nix-tools.nix
     ./desktop-integration.nix
+    ./maintenance.nix
     ./documentation.nix
   ];
 }
