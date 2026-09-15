@@ -56,10 +56,6 @@
     ];
 
   };
-  catppuccin.swaync = {
-    enable = true;
-    flavor = "mocha";
-  };
 
   # services.mako.enable = true;
   # catppuccin.mako = {

@@ -6,9 +6,6 @@
     ./hyprlock/hyprlock.nix
   ];
 
-  home.packages = with pkgs; [
-    hyprland
-  ];
 
   home.file.".config/hypr" = {
     source = ./hypr;
