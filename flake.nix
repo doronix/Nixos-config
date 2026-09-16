@@ -14,6 +14,11 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # AI agents / ChatGPT / Herdr
     llm-agents.url = "github:numtide/llm-agents.nix";
 
@@ -60,6 +65,7 @@
 
         modules = [
           ./configuration.nix
+          inputs.sops-nix.nixosModules.sops
           catppuccin.nixosModules.catppuccin
           home-manager.nixosModules.home-manager
           {

@@ -9,6 +9,7 @@
     ./maintenance.nix
     ./snapshots.nix
     ./backup.nix
+    ./secrets.nix
     ./documentation.nix
   ];
 }

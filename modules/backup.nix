@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{config, pkgs, ...}: {
   # Backup disk is LUKS encrypted.
   # We unlock it manually after boot instead of storing the LUKS key
   # on the unencrypted system disk.
@@ -49,7 +49,7 @@
     user = "charles";
 
     repository = "/mnt/restic-local/r9000p";
-    passwordFile = "/home/charles/.config/restic/local.pass";
+    passwordFile = config.sops.secrets."restic-local-password".path;
 
     paths = [
       "/home/charles"
@@ -61,6 +61,7 @@
 
       # Restic password itself must not enter the repository.
       "/home/charles/.config/restic/local.pass"
+      "/home/charles/.config/sops/age"
 
       # Rebuildable caches.
       "/home/charles/.cache"

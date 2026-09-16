@@ -1,0 +1,8 @@
+keys:
+  - &r9000p age1s25rnm6p44c920a2knt4rrzjuws9cpguesk44q7rjv3sdhaeea4swfk7sw
+
+creation_rules:
+  - path_regex: secrets/.*\.yaml$
+    key_groups:
+      - age:
+          - *r9000p
