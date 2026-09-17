@@ -6,6 +6,7 @@
     drawio
     libreoffice
     kdePackages.okular
+    kdePackages.kate
     kdiskmark
 
     # Cross-device file transfer
@@ -25,6 +26,15 @@
     hyprpicker
     udiskie
   ];
+
+
+  # Default application for plain-text files.
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/plain" = [ "org.kde.kate.desktop" ];
+    };
+  };
 
   programs.zathura.enable = true;
 
