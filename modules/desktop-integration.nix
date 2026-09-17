@@ -3,6 +3,9 @@
   # file transfer, clipboard, notifications, remote control, etc.
   programs.kdeconnect.enable = true;
 
+  # Persistent dconf backend for GSettings applications.
+  programs.dconf.enable = true;
+
   # KDE applications such as Dolphin rely on an XDG applications.menu.
   # Niri does not provide one, so create a minimal Freedesktop menu that
   # exposes all installed .desktop applications to KService.

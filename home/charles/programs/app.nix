@@ -10,7 +10,6 @@
     obsidian
     spotify
     kdePackages.dolphin
-    v2rayn
 
     # Media / audio
     playerctl
